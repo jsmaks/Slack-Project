@@ -22,12 +22,16 @@ interface SignInCardProps {
 export const SignInCard = ({ setState }: SignInCardProps) => {
   const { signIn } = useAuthActions();
 
-  const handleProvider = (value: "github" | "google") => {
-    signIn(value);
-  };
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const onProvierSignIn = (value: "github" | "google") => {
+    setLoading(true);
+    signIn(value).finally(() => {
+      setLoading(false);
+    });
+  };
 
   return (
     <Card className="w-full h-full p-8">
@@ -41,7 +45,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
       <CardContent className="space-y-5 px-0 pb-0">
         <form className="space-y-2.5">
           <Input
-            disabled={false}
+            disabled={loading}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
@@ -49,7 +53,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             required
           />
           <Input
-            disabled={false}
+            disabled={loading}
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
@@ -58,15 +62,15 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             type="password"
             required
           />
-          <Button className="w-full" size={"lg"} disabled={false} type="submit">
+          <Button className="w-full" size={"lg"} disabled={loading} type="submit">
             Continue
           </Button>
         </form>
         <Separator />
         <div className="flex flex-col gap-y-2.5">
           <Button
-            disabled={false}
-            onClick={() => {}}
+            disabled={loading}
+            onClick={() => onProvierSignIn("google")}
             variant="outline"
             size="lg"
             className="w-full relative">
@@ -74,8 +78,8 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             Continue with Google
           </Button>
           <Button
-            disabled={false}
-            onClick={() => handleProvider("github")}
+            disabled={loading}
+            onClick={() => onProvierSignIn("github")}
             variant="outline"
             size="lg"
             className="w-full relative">
