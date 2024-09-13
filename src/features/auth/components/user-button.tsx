@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { userCurrentUser } from "../hooks/user-current-user";
+import { userCurrentUser } from "../api/user-current-user";
 import { Loader, LogOutIcon } from "lucide-react";
 import { useAuthActions } from "@convex-dev/auth/react";
 
